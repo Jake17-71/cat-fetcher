@@ -1,0 +1,75 @@
+@use '../helpers' as *;
+
+.button {
+  height: var(--input-height);
+  border-radius: 34px;
+  transition-duration: var(--transition-duration-slow);
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  @include hover() {
+    transition-duration: var(--transition-duration);
+    background-color: var(--border-muted);
+  }
+
+  @include focus-visible-no-typing;
+
+  &-theme {
+    --sizeButton: 96px;
+
+    position: relative;
+    width: var(--sizeButton);
+    background-color: var(--bg-light);
+    border: var(--border);
+    transition: transform var(--transition-duration-slow) cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color var(--transition-duration-slow) ease-in-out,
+    border-color var(--transition-duration-slow) ease-in-out;
+
+    @include tablet {
+      --sizeButton: 76px;
+      --input-height: 36px;
+
+      border-width: var(--border-width-xm);
+    }
+
+    @include hover {
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    &-toggle {
+      @include abs-y;
+      @include flex-center;
+
+      width: calc(var(--sizeButton) / 4);
+      height: calc(var(--sizeButton) / 4);
+      left: calc(var(--sizeButton) / 8);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+      svg {
+        width: calc(var(--sizeButton) / 4);
+        height: calc(var(--sizeButton) / 4);
+        border: var(--border-width-s) solid var(--border-color);
+        border-radius: 50%;
+        background-color: var(--bg-dark);
+        transition: background-color var(--transition-duration-slow) ease-in-out,
+        border-color var(--transition-duration-slow) ease-in-out,
+        transform var(--transition-duration-slow) cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      &.is-active {
+        --translateX: calc(var(--sizeButton) / 2.2);
+
+        transform: translateX(var(--translateX));
+
+        svg {
+          transform: rotate(360deg);
+        }
+      }
+    }
+  }
+}

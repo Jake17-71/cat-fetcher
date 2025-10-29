@@ -1,0 +1,40 @@
+@use '../helpers' as *;
+
+.header {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(12px, 3vw, 16px) var(--container-padding-x);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    background-color: var(--bg-light);
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 2vw, 12px);
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    font-size: clamp(24px, 5vw, 32px);
+    color: var(--primary);
+  }
+
+  &__title {
+    @include fluid-text(36, 20);
+
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text);
+  }
+}
