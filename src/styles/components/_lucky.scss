@@ -1,0 +1,12 @@
+@use '../helpers' as *;
+
+.lucky__inner {
+  @include flex-center();
+  flex-direction: column;
+  gap: 15px;
+
+  background: var(--bg-light);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 20px;
+}
