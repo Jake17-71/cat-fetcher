@@ -60,37 +60,36 @@
                 Поиск по тегам
               </label>
 
-              <div
+              <ul
                 class="cat-filter__selected-tags"
                 data-js-selected-tags
-                role="list"
                 aria-label="Выбранные теги"
               >
-                <div class="cat-filter__tag" role="listitem">
+                <li class="cat-filter__tag">
                   <span>cute</span>
                   <button
                     type="button"
                     class="cat-filter__tag-remove"
                     aria-label="Удалить тег cute"
                   ></button>
-                </div>
-                <div class="cat-filter__tag" role="listitem">
+                </li>
+                <li class="cat-filter__tag">
                   <span>funny</span>
                   <button
                     type="button"
                     class="cat-filter__tag-remove"
                     aria-label="Удалить тег funny"
                   ></button>
-                </div>
-                <div class="cat-filter__tag" role="listitem">
+                </li>
+                <li class="cat-filter__tag">
                   <span>sleeping</span>
                   <button
                     type="button"
                     class="cat-filter__tag-remove"
                     aria-label="Удалить тег sleeping"
                   ></button>
-                </div>
-              </div>
+                </li>
+              </ul>
 
               <div
                 class="cat-filter__input-wrapper"
@@ -115,6 +114,7 @@
                   role="listbox"
                   aria-label="Список доступных тегов"
                   data-js-suggestions
+                  hidden
                 >
                   <li
                     class="cat-filter__suggestion-item"
@@ -195,14 +195,31 @@
         data-js-response
         aria-label="Результаты поиска"
       >
-        <div
+        <ul
           class="response__images"
           data-js-images-container
           role="region"
           aria-live="polite"
         >
-          123
-        </div>
+          <li
+            class="response__image"
+            data-js-image
+          >
+            213
+          </li>
+          <li
+            class="response__image"
+            data-js-image
+          >
+            213
+          </li>
+          <li
+            class="response__image"
+            data-js-image
+          >
+            213
+          </li>
+        </ul>
       </section>
     </main>
 
