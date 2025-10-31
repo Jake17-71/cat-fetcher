@@ -65,30 +65,6 @@
                 data-js-selected-tags
                 aria-label="Выбранные теги"
               >
-                <li class="cat-filter__tag">
-                  <span>cute</span>
-                  <button
-                    type="button"
-                    class="cat-filter__tag-remove"
-                    aria-label="Удалить тег cute"
-                  ></button>
-                </li>
-                <li class="cat-filter__tag">
-                  <span>funny</span>
-                  <button
-                    type="button"
-                    class="cat-filter__tag-remove"
-                    aria-label="Удалить тег funny"
-                  ></button>
-                </li>
-                <li class="cat-filter__tag">
-                  <span>sleeping</span>
-                  <button
-                    type="button"
-                    class="cat-filter__tag-remove"
-                    aria-label="Удалить тег sleeping"
-                  ></button>
-                </li>
               </ul>
 
               <div
@@ -97,13 +73,14 @@
               >
                 <input
                   type="text"
+                  name="tag-input"
                   id="tag-input"
                   class="cat-filter__input"
                   placeholder="Начните вводить тег..."
                   autocomplete="off"
                   role="combobox"
                   aria-autocomplete="list"
-                  aria-expanded="true"
+                  aria-expanded="false"
                   aria-controls="tag-suggestions"
                   aria-label="Введите тег для поиска"
                   data-js-tag-input
@@ -120,44 +97,49 @@
                     class="cat-filter__suggestion-item"
                     role="option"
                     tabindex="0"
+                    data-js-suggestion-item="orange"
                   >
-                    orange
+                    Оранжевый
                   </li>
                   <li
                     class="cat-filter__suggestion-item"
                     role="option"
                     tabindex="0"
-                    aria-selected="true"
+                    data-js-suggestion-item="black"
                   >
-                    black
+                    Черный
                   </li>
                   <li
                     class="cat-filter__suggestion-item"
                     role="option"
                     tabindex="0"
+                    data-js-suggestion-item="white"
                   >
-                    white
+                    Белый
                   </li>
                   <li
                     class="cat-filter__suggestion-item"
                     role="option"
                     tabindex="0"
+                    data-js-suggestion-item="kitten"
                   >
-                    kitten
+                    Котенок
                   </li>
                   <li
                     class="cat-filter__suggestion-item"
                     role="option"
                     tabindex="0"
+                    data-js-suggestion-item="grumpy"
                   >
-                    grumpy
+                    Сердитый
                   </li>
                   <li
                     class="cat-filter__suggestion-item"
                     role="option"
                     tabindex="0"
+                    data-js-suggestion-item="playful"
                   >
-                    playful
+                    Игривый
                   </li>
                 </ul>
               </div>
