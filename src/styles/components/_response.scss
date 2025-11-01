@@ -18,6 +18,21 @@
   }
 
   &__image {
-    @include square(350px);
+    @include flex-center();
+
+    max-width: 400px;
+    height: 400px;
+    width: 100%;
+    background: var(--bg);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 15px;
   }
+}
+
+.cat-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--border-radius);
 }
