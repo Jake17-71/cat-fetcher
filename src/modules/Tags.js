@@ -30,6 +30,15 @@ class Tags {
     this.bindEvents()
   }
 
+  // Добавляем кастомное событие для связи с модулем Fetch
+  notifyTagsChanged() {
+    const event = new CustomEvent('tagsChanged', {
+      detail: { tags: this.getSelectedTags() },
+      bubbles: true
+    })
+    this.rootElement.dispatchEvent(event)
+  }
+
   // Фильтрует список предложений по введенному тексту
   handleInputChange() {
     const inputValue = this.inputElement.value.toLowerCase()
@@ -131,6 +140,8 @@ class Tags {
     this.selectedTags.add(value)
     this.createTagElement(value)
     this.updateSelectedTagsVisibility()
+
+    this.notifyTagsChanged()
   }
 
   // Удаляет тег из списка выбранных
@@ -147,6 +158,8 @@ class Tags {
     if (suggestionItem) {
       suggestionItem.setAttribute(`${this.attributes.ariaSelected}`, 'false')
     }
+
+    this.notifyTagsChanged()
   }
 
   // Получает массив выбранных тегов
