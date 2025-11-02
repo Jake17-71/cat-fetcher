@@ -10,6 +10,8 @@ class Fetch {
     imagesContainerSelector: `[data-js-images-container]`,
     imageSelector: `[data-js-image]`,
 
+    emptyMessage: '[data-js-empty-message]',
+
   }
 
   constructor(rootElement) {
@@ -20,13 +22,25 @@ class Fetch {
     this.imagesContainerElement = document.querySelector(this.selectors.imagesContainerSelector)
     this.imageElement = document.querySelector(this.selectors.imageSelector)
 
+    this.emptyMessage = document.querySelector(this.selectors.emptyMessage)
+
 
     this.inputWrapperElement.addEventListener('tagsChanged', (event) => {
       const tags = event.detail.tags
       console.log('Selected tags:', tags)
     })
 
+    this.updateEmptyMessageVisibility()
     this.bindEvents()
+  }
+
+  updateEmptyMessageVisibility() {
+    const haveImage = (this.imagesContainerElement.children.length - 1) > 0
+    if (haveImage) {
+      this.emptyMessage.setAttribute('empty', '')
+    } else {
+      this.emptyMessage.removeAttribute('empty')
+    }
   }
 
   createListElementImage(img) {
@@ -35,6 +49,8 @@ class Fetch {
     liElement.setAttribute('data-js-image', '')
     liElement.appendChild(img)
     this.imagesContainerElement.appendChild(liElement)
+
+    this.updateEmptyMessageVisibility()
   }
 
   createImgElement(blob) {
