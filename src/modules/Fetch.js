@@ -1,7 +1,6 @@
 const inputWrapperSelector = '[data-js-input-wrapper]'
 
 class Fetch {
-
   selectors = {
     luckyButtonSelector: `[data-js-lucky-button]`,
     searchButtonSelector: `[data-js-search-button]`,
@@ -13,23 +12,29 @@ class Fetch {
     emptyMessageSelector: '[data-js-empty-message]',
     errorMessageSelector: `[data-js-error-message]`,
 
+    loaderSelector: `[data-js-loader]`,
+  }
+
+  stateClasses = {
+    isLoading: 'is-loading',
   }
 
   constructor(rootElement) {
     this.inputWrapperElement = rootElement
     this.luckyButtonElement = document.querySelector(this.selectors.luckyButtonSelector)
     this.searchButtonElement = document.querySelector(this.selectors.searchButtonSelector)
-    this.responseElement = document.querySelector(this.selectors.responseSelector)
     this.imagesContainerElement = document.querySelector(this.selectors.imagesContainerSelector)
 
     this.emptyMessageElement = document.querySelector(this.selectors.emptyMessageSelector)
     this.errorMessageElement = document.querySelector(this.selectors.errorMessageSelector)
 
+    this.loaderElement = document.querySelector(this.selectors.loaderSelector)
+
     this.tags = []
 
+    // Подписываемся на событие изменения тегов из модуля Tags
     this.inputWrapperElement.addEventListener('tagsChanged', (event) => {
-       this.tags = event.detail.tags
-      console.log('Selected tags:', this.tags)
+      this.tags = event.detail.tags
     })
 
     this.hideErrorMessage()
@@ -37,6 +42,17 @@ class Fetch {
     this.bindEvents()
   }
 
+  // Показывает индикатор загрузки
+  showLoader() {
+    this.loaderElement.classList.add(this.stateClasses.isLoading)
+  }
+
+  // Скрывает индикатор загрузки
+  hideLoader() {
+    this.loaderElement.classList.remove(this.stateClasses.isLoading)
+  }
+
+  // Обновляет видимость сообщения "Здесь появятся изображения котиков!"
   updateEmptyMessageVisibility() {
     const haveImage = (this.imagesContainerElement.children.length - 2) > 0
     const hasError = !this.errorMessageElement.hasAttribute('empty')
@@ -48,6 +64,7 @@ class Fetch {
     }
   }
 
+  // Создает элемент списка с изображением и добавляет его на страницу
   createListElementImage(img) {
     const liElement = document.createElement('li')
     liElement.className = 'response__image'
@@ -64,6 +81,7 @@ class Fetch {
     this.updateEmptyMessageVisibility()
   }
 
+  // Создает элемент изображения из blob и обрабатывает события загрузки
   createImgElement(blob) {
     const url = URL.createObjectURL(blob)
     const img = new Image()
@@ -72,13 +90,19 @@ class Fetch {
     img.alt = 'Изображение кота'
     img.title = 'Изображение кота'
     img.onload = () => {
+      this.hideLoader()
       this.createListElementImage(img)
+    }
+    img.onerror = () => {
+      this.hideLoader()
+      this.showErrorMessage('Ошибка загрузки изображения')
     }
   }
 
+  // Выполняет запрос для получения случайного изображения кота
   fetchLucky() {
-    // Скрываем сообщение об ошибке перед новым запросом
     this.hideErrorMessage()
+    this.showLoader()
 
     fetch('https://cataas.com/cat?type=medium')
       .then(response => {
@@ -91,25 +115,42 @@ class Fetch {
       .catch(error => {
         console.log(error)
         this.showErrorMessage(error)
+        this.hideLoader()
       })
   }
 
+  // Обработчик клика по кнопке "Мне повезет!"
   onLuckyButtonClick(event) {
     event.preventDefault()
     this.fetchLucky()
   }
 
+  // Показывает сообщение об ошибке с разными текстами в зависимости от типа ошибки
   showErrorMessage(error) {
     this.errorMessageElement.removeAttribute('empty')
-    this.errorMessageElement.textContent = 'Изображение с такими тегами не найдено! Код ошибки: ' + `${error}`
+
+    const errorCode = error.message
+    let errorText = ''
+
+    if (errorCode === '404') {
+      errorText = 'Изображение с такими тегами не найдено! Код ошибки: 404'
+    } else if (errorCode === 'Ошибка загрузки изображения') {
+      errorText = 'Не удалось загрузить изображение. Попробуйте ещё раз.'
+    } else {
+      errorText = `Произошла ошибка при загрузке. Код ошибки: ${errorCode}`
+    }
+
+    this.errorMessageElement.textContent = errorText
     this.updateEmptyMessageVisibility()
   }
 
+  // Скрывает сообщение об ошибке
   hideErrorMessage() {
     this.errorMessageElement.setAttribute('empty', '')
     this.updateEmptyMessageVisibility()
   }
 
+  // Выполняет запрос для получения изображения кота по выбранным тегам
   fetchSearch() {
     // Если тегов нет - получаем случайного кота
     if (this.tags.length === 0) {
@@ -118,6 +159,7 @@ class Fetch {
     }
 
     this.hideErrorMessage()
+    this.showLoader()
 
     const tagsString = this.tags.join(',')
     const url = `https://cataas.com/cat/${tagsString}?type=medium`
@@ -133,14 +175,17 @@ class Fetch {
       .catch(error => {
         console.log(error)
         this.showErrorMessage(error)
+        this.hideLoader()
       })
   }
 
+  // Обработчик клика по кнопке "Найти кота!"
   onSearchButtonClick(event) {
     event.preventDefault()
     this.fetchSearch()
   }
 
+  // Привязывает все обработчики событий
   bindEvents() {
     this.luckyButtonElement.addEventListener('click', (event) => this.onLuckyButtonClick(event))
     this.searchButtonElement.addEventListener('click', (event) => this.onSearchButtonClick(event))

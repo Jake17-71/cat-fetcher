@@ -1,4 +1,4 @@
-const inputWrapperSelector = '[data-js-scroll-to-top]'
+const scrollToTopButtonSelector = '[data-js-scroll-to-top]'
 
 class ScrollButton {
 
@@ -51,7 +51,7 @@ class ScrollButtonCollection {
   }
 
   init() {
-    document.querySelectorAll(inputWrapperSelector).forEach((element) => {
+    document.querySelectorAll(scrollToTopButtonSelector).forEach((element) => {
       new ScrollButton(element)
     })
   }
