@@ -3,6 +3,7 @@
 .response {
   @include flex-center();
 
+  position: relative;
   gap: 20px;
   margin-block: 20px;
 
